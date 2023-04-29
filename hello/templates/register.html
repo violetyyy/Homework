@@ -1,0 +1,34 @@
+{% extends "base.html"%}
+{% block content %}
+<div class="row">
+    <div class="col-xl-5 col-lg-6 col-md-10 col-sm-12 mx-auto mt-5">
+        <h2>Бүртгүүлэх</h2>
+        {% if message != '' %}
+            <p class = "alert alert-success">{{ message }}</p>
+        {% endif %}
+        <form method="POST">
+            {% csrf_token %}
+            <div class="card-body">
+                <div class="form-group">
+                    <label for="id_username">Хэрэглэгчийн нэр</label>
+                    {{ form.username }}
+                    {{ form.username.errors }}
+                </div>
+                <div class="form-group">
+                    <label for="id_password">Нууц үг</label>
+                    {{ form.password1 }}
+                    {{ form.password1.errors }}
+                </div>
+                <div class="form-group">
+                    <label for="id_password">Нууц үг давтан оруулна уу</label>
+                    {{ form.password2 }}
+                    {{ form.password2.errors }}
+                </div>
+                <div class="text-center">
+                    <br><button type="submit" class="btn btn-primary">Нэвтрэх</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

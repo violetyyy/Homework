@@ -1,0 +1,72 @@
+{% extends "base.html"%}
+{% block content %}
+<div class="row">
+    <div class="col-md-12 col-sm-12">
+        <h2>Homeworks</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col"></th>
+                <th scope="col">Хичээл</th>
+                <th scope="col">Агуулга</th>
+                <th scope="col">Дуусах хугацаа</th>
+                <th scope="col">Нэмсэн огноо</th>
+                <th scope="col">Зураг</th>
+                <th scope="col">Хичээл</th>
+                <th scope="col">Зассан огноо</th>
+                <th scope="col">Үйлдэл</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for homework in homeworks %}
+            <tr>
+                <td><input type="checkbox" {% if homework.done == True%}checked{% endif%} onclick="done(this), '{% url 'homework_done' homework.id %}')"/></td>
+                <th scope="row">{{ homework.title }}</th>
+                <td>{{ homework.content }}</td>
+                <td>{{ homework.deadline }}</td>
+                <td>{{ homework.created_date }}</td>
+                <td>
+                    <img width="50%" src="{{MEDIA_URL}}{{homework.image}}">
+                </td>
+                <td>{{ homework.lesson_name }}</td>
+                <td>{{ homework.updated_date }}</td>
+                <td>
+                    <a href="{% url 'homework_edit' homework.id %}">Засах</a>
+                    <a onclick="return confirm('Та устгахдаа итгэлтэй байна уу?')" 
+                    href="{% url 'homework_delete' homework.id %}">Устгах</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <!-- Pagination -->
+    <div class="Pagination">
+        <span class="step-links">
+            {% if homeworks.has_previous %}
+                <a href="?page=1">first</a>
+                <a href="?page={{ homeworks.previous_page_number }}">
+                    previous
+                </a>
+            {% endif %}
+            <span class="current">
+                Page {{ homeworks.number }} of {{ homeworks.paginator.num_pages }}
+            </span>
+            {% if homeworks.has_next %}
+                <a href="?page={{ homeworks.next_page_number }}">next</a>
+                <a href="?page={{ homeworks.paginator.num_pages}}">last</a>
+            {% endif %}
+        </span>
+    </div>
+    </div>
+</div>
+<script>
+    function done(target, url){
+        if(target.checked == true){
+            window.location = url + '?done=True'
+        }else{
+            window.location = url + '?done=False'
+        }
+    }
+
+</script>
+{% endblock %}
